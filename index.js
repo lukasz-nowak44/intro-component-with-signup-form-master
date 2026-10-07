@@ -18,7 +18,7 @@ for (let i=0; i<=9; i++) {
 allowedCharacters.push("-");
 allowedCharacters.push(".");
 
-$(".btn").click(function(event){
+$(".btn").click(function(){
 
   let inputsCollection  = $("input");
   let numberOfImputs = inputsCollection.length;
