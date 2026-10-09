@@ -31,40 +31,52 @@
 
     <main>
 
-      <header>
+      <p class="offer"><strong>Try it free 7 days</strong> then $20/mo. thereafter</p>
+      
+      <section class="card" aria-label="Sign up">
 
-        <div class="offer">
-          <p><span>Try it free 7 days </span>then $20/mo. thereafter</p>
-        </div>
+          <form action="/signup" method="post" novalidate>
 
-      </header>
+            <div class="field">
+              <label for="first-name" class="visually-hidden">First Name</label>
+              <input id="first-name" type="text" name="firstName" placeholder="First Name"
+                    autocomplete="given-name" required aria-describedby="first-name-error">
+              <p id="first-name-error" class="error" aria-live="polite"></p>
+            </div>
 
-      <article>
+            <div class="field">
+              <label for="last-name" class="visually-hidden">Last Name</label>
+              <input id="last-name" type="text" name="lastName" placeholder="Last Name"
+                      autocomplete="family-name" required aria-describedby="last-name-error">
+              <p id="last-name-error" class="error" aria-live="polite"></p>
+            </div>
 
-          <form action="" method="post" enctype="application/x-www-form-urlencoded">
+            <div class="field">
+              <label for="email" class="visually-hidden">First Name</label>
+              <input id="email" type="email" name="email" placeholder="Email"
+                    autocomplete="email" required aria-describedby="email-error">
+              <p id="email-error" class="error" aria-live="polite"></p>
+            </div>
 
-            <ul class="customer-data">
+            <div class="field">
+              <label for="password" class="visually-hidden">First Name</label>
+              <input id="password" type="text" name="password" placeholder="Password"
+                      autocomplete="new-password" required aria-describedby="password-error">
+              <p id="password-error" class="error" aria-live="polite"></p>
+            </div>
 
-              <li class="field no0"><input type="text" placeholder="First Name" name="First Name" required /></li>
-              <li class="field no1"><input type="text" placeholder="Last Name" name="Last Name" required /></li>
-              <li class="field no2"><input type="email" placeholder="Email Address" name="Email" required /></li>
-              <li class="field no3"><input type="password" placeholder="Password" name="Password" required /></li>
-
-            </ul>
-          
             <button type="submit" class="btn">CLAIM YOUR FREE TRIAL</button>
 
           </form>
 
-          <footer class="disclaimer">By clicking the button, you are agreeing to our <a href="" class="terms">Terms and Services</a></footer>
+          <p class="disclaimer">By clicking the button, you are agreeing to our <a href="/terms" class="terms">Terms and Services</a></p>
 
-      </article>
+      </section>
 
     </main>
 
   </div>  
   
-  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
   <script src="index.js" charset="UTF-8"></script>
 
 </body>
