@@ -1,174 +1,27 @@
-let allowedCharacters = [];
+const form = document.querySelector('form');
+const EMAIL_RE = /^[^\s@]+@[a-z0-9-]+(\.[a-z0-9-]+)*\.[a-z]{2,}$/i;
 
-let letter;
+function validate(input) {
+  const value = input.value.trim();
+  let message = '';
 
-for (let i=97; i<=122; i++) {
+  if (value === '') {
+    message = `${input.labels[0].textContent} cannot be empty`;
+  } else if (input.type === 'email' && !EMAIL_RE.test(value)) {
+    message = 'Looks like this is not an email';
+  }
 
-  letter = String.fromCharCode(i);
-  allowedCharacters.push(letter);
-
+  document.getElementById(input.getAttribute('aria-describedby')).textContent = message;
+  input.setAttribute('aria-invalid', message ? 'true' : 'false');
+  return message === '';
 }
 
-for (let i=0; i<=9; i++) {
+form.addEventListener('submit', (e) => {
+  const inputs = [...form.querySelectorAll('input')];
+  const results = inputs.map(validate);
 
-  allowedCharacters.push(i);
-
-}
-
-allowedCharacters.push("-");
-allowedCharacters.push(".");
-
-$(".btn").click(function(){
-
-  let inputsCollection  = $("input");
-  let numberOfImputs = inputsCollection.length;
-  let emailAdress = inputsCollection[2].value;
- 
-  for (let i=0; i<numberOfImputs; i++) {
-
-    let inputName = $(inputsCollection[i]).attr("name");
-    
-    let doesErrorTextExist = $(inputsCollection[i]).hasClass("exclamation-mark");
-
-    if ((inputsCollection[i].value === "") && (!doesErrorTextExist)) {
-
-      stylizeAfterValidation(inputsCollection[i]);
-
-      if (i !== 2){
-
-          $(".field").eq(i).append("<div class='error'>" + inputName + " cannot be empty</div>");
-
-        } else {
-
-          $(".field").eq(i).append("<div class='error'>Looks like this is not an email</div>");
-
-        }
-
-    } else if (inputsCollection[i].value !== "") {
-
-      let handleForDivError = ".no" + i + " .error";
-      
-      if (i !== 2){
-
-        $(inputsCollection[i]).removeClass("exclamation-mark");
-        $(handleForDivError).remove();
-
-      } else if (checkEmailAdress(emailAdress)){
-
-        $(inputsCollection[i]).removeClass("exclamation-mark");
-        $(handleForDivError).remove();
-
-      } else if (!checkEmailAdress(emailAdress) && (!doesErrorTextExist)) {
-
-        $(inputsCollection[i]).addClass("exclamation-mark");
-        $(".field").eq(i).append("<div class='error'>Looks like this is not an email</div>");
-
-      }
-    }
-  } 
+  if (results.includes(false)) {
+    e.preventDefault();
+    inputs[results.indexOf(false)].focus();
+  }
 });
-
-function stylizeAfterValidation (input) {
-
-  $(input).addClass("exclamation-mark");
-  $(input).attr("placeholder", "");
-  $(".no2 input:read-write").addClass("user-wrong-text");
-
-}
-
-function checkEmailAdress (email) {
-
-  email = email.toLowerCase();
-
-  let emailSignsCounter = 0;
-  let ifDotExist = false;
-  let emailSignPosition;
-  let lastDotPosition;
-  let domain;
-  
-  for (let i=0; i < email.length; i++) {
-
-    if (email[i] === "@"){
-
-      emailSignsCounter++;
-      emailSignPosition = i;
-      
-    } 
-  }
-
-  for (let i=0; i < email.length; i++) {
-
-    if (email[i] === "."){
-
-      ifDotExist = true;
-      lastDotPosition = i;
-
-      if (lastDotPosition === 0) {
-
-        return false;
-
-      }
-    } 
-  }  
-
-  domain = email.slice(emailSignPosition+1);
-
-  if (!(emailSignsCounter === 1)) {
-
-    return false;
-
-  } else if (!ifDotExist){
-
-    return false;
-
-  } else if (!((lastDotPosition - emailSignPosition) >= 3)){
-
-    return false;
-
-  } else if (emailSignPosition === 0) {
-
-    return false;
-
-  } else if (!checkIfDomainContainsAllowedSigns(domain)){
-
-    return false;
-
-  } else {
-
-    return true;
-
-  }  
-}
-
-function checkIfDomainContainsAllowedSigns (domain) {
-
-  let doesSignAllowed = false;
-
-  for (let i=0; i<domain.length; i++){
-
-    let singleSign = domain[i];
-
-    for (let j=0; j<allowedCharacters.length; j++) {
-
-      if (singleSign === allowedCharacters[j]) {
-
-        doesSignAllowed = true;
-        break;
-
-      } else {
-
-        doesSignAllowed = false;
-
-      } 
-    }
-
-    if (!doesSignAllowed) {
-
-      return false;
-
-    }
-  }
-
-  return true;
-
-}
